@@ -1,0 +1,4 @@
+main.o
+check_ssl
+.qmake.stash
+Makefile
