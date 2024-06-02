@@ -1,3 +1,4 @@
 {
-    "description": "Prints Qt OpenSSL debug information"
+    "description": "Prints Qt OpenSSL debug information",
+    "type" : "debug"
 }

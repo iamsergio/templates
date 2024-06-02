@@ -1,4 +1,5 @@
 {
     "description": "vscode template for Qt",
-    "no_parent_dir": true
+    "no_parent_dir": true,
+    "type": "single_file"
 }
