@@ -1,3 +1,7 @@
 {
-    "description": "Minimal QApplication"
+    "description": "Minimal QApplication",
+    "depends" : [
+        "qt/vscode/workspace_template",
+        "cpp/clang-format"
+    ]
 }
