@@ -1,0 +1,7 @@
+{
+    "description": "Minimal QtTest",
+    "depends": [
+        "qt/vscode/workspace_template",
+        "cpp/clang-format"
+    ]
+}
