@@ -1,0 +1,6 @@
+{
+    "description": "qmake minimal QApplication",
+    "depends" : [
+        "cpp/clang-format"
+    ]
+}
