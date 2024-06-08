@@ -1,0 +1,5 @@
+{
+    "description": "vscode template for qmake",
+    "no_parent_dir": true,
+    "type": "single_file"
+}
