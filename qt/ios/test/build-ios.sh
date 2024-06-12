@@ -1,0 +1,15 @@
+unset SDKROOT
+
+# Required via SSH
+# security unlock-keychain
+
+mkdir build-debug-ios-xcode &> /dev/null
+
+cd build-debug-ios-xcode && \
+qt-cmake -G Xcode .. && \
+xcodebuild -allowProvisioningUpdates -scheme test -configuration Debug -destination "name=iPhone 15" -destination-timeout 1 ENABLE_ONLY_ACTIVE_RESOURCES=NO
+
+# xcodebuild -allowProvisioningUpdates -scheme test -configuration Debug -destination "generic/platform=iOS" -destination-timeout 1 ENABLE_ONLY_ACTIVE_RESOURCES=NO
+
+# Use: -destination "id=<foo>" for a specific device
+# list destinations with: xcodebuild -showdestinations -scheme test
