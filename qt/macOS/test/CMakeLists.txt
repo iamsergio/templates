@@ -11,16 +11,8 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 ####################################################################################################
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum macOS deployment target")
+set(CMAKE_OSX_DEPLOYMENT_TARGET 13)
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-
-# Example of changing team:
-
-# This one we're passing from command-line:
-# set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "XXXXXXXXXX")
-
-# Matches 1st dev identity in the team
-set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
 
 ####################################################################################################
 
