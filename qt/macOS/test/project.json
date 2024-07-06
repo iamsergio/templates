@@ -1,0 +1,7 @@
+{
+    "description": "macOS codesign playground",
+    "depends" : [
+        "qt/vscode/workspace_template",
+        "cpp/clang-format"
+    ]
+}
