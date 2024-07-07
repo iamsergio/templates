@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.21)
 project(test VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0" CACHE STRING "Minimum iOS deployment target")
-set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -12,8 +11,12 @@ set(CMAKE_INCLUDE_CURRENT_DIRS ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 # Example of changing team:
+
+# Comes from commandline
 # set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "XXXXXXXXXX")
-# set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
+
+# Choses 1st identity from team
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
 
 find_package(Qt6 6.7 NO_MODULE REQUIRED COMPONENTS Quick)  
 
