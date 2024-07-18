@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: MIT
+
+[package]
+name = "journal"
+version = "0.0.1"
+edition = "2021"
+exclude = [".github/*", "vscode*"]
+homepage = "https://github.com/iamsergio/vscode-workspace-gen"
+repository = "https://github.com/iamsergio/vscode-workspace-gen"
+license = "MIT"
+description = "Generates vscode workspace files from a template"
+keywords = ["cli", "journal"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+clap = { version = "4.5.0", features = ["derive"] }
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = { version = "1.0.115", features = ["preserve_order", "indexmap"] }

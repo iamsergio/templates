@@ -1,0 +1,72 @@
+{
+	"gen.globals": {
+		"filter": {
+			"name": "j",
+			"kind": "bin"
+		}
+	},
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.formatOnSave": true,
+		"files.associations": {
+			"*.code-workspace.template": "json"
+		}
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "lldb",
+				"request": "launch",
+				"name": "j",
+				"cargo": {
+					"args": [
+						"build",
+						"--bin=j",
+						"--package=j",
+						"--features=qt"
+					],
+					"filter": "@{filter}"
+				},
+				"args": [
+					"vscode.code-workspace.template"
+				],
+				"cwd": "${workspaceFolder}"
+			},
+			{
+				"type": "lldb",
+				"request": "launch",
+				"name": "tests",
+				"cargo": {
+					"args": [
+						"test",
+						"--no-run",
+						"--bin=j",
+						"--package=j"
+					],
+					"filter": "@{filter}"
+				},
+				"args": [],
+				"cwd": "${workspaceFolder}"
+			}
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Run workspace gen",
+				"type": "shell",
+				"command": "j",
+				"args": [
+					"vscode.code-workspace.template"
+				],
+				"problemMatcher": []
+			}
+		]
+	}
+}
