@@ -1,0 +1,7 @@
+{
+    "description": "Draw to a QWindow directly via EGL",
+    "depends" : [
+        "qt/vscode/workspace_template",
+        "cpp/clang-format"
+    ]
+}
