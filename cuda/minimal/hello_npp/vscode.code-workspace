@@ -38,6 +38,7 @@
         "args": [],
         "cwd": "${command:cmake.buildDirectory}",
         "initCommands": [
+          "settings set target.process.stop-on-exec false",
           "command script import ${QT_SDK_INSTALL}/Tools/QtCreator/share/qtcreator/debugger/lldbbridge.py"
         ],
         "sourceMap": {
