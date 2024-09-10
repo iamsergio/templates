@@ -14,3 +14,6 @@ add_library(mystaticlibrary STATIC ${SOME_STATIC_LIBRARY_SRCS})
 
 add_executable(swift_cmake_example ${SRCS})
 target_link_libraries(swift_cmake_example mystaticlibrary mylibrary)
+
+add_executable(cpp_to_swift main.cpp)
+target_link_libraries(cpp_to_swift mystaticlibrary mylibrary)
