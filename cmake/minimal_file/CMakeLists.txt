@@ -13,3 +13,4 @@ add_executable(example ${SRCS})
 
 # target_compile_definitions(example MYDEFINE)
 # target_include_directories(example PRIVATE ..)
+# target_link_libraries(example <libraries>)
