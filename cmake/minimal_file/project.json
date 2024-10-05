@@ -1,0 +1,5 @@
+{
+    "description": "Minimal CMakeLists.txt file"
+    "no_parent_dir": true,
+    "type": "single_file"
+}
