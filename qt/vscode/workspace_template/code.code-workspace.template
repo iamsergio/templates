@@ -11,7 +11,8 @@
       "mhutchie.git-graph",
       "bbenoist.QML",
       "ms-vscode.cmake-tools",
-      "sergiokdab.qttest"
+      "sergiokdab.qttest",
+      "cheshirekow.cmake-format"
     ]
   },
   "settings": {
