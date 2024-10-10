@@ -13,3 +13,5 @@ CMakeCache.txt
 .ninja*
 main
 build.ninja
+.DS_Store
+build-*
