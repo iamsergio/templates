@@ -17,5 +17,8 @@
   "settings": {
     "files.trimTrailingWhitespace": true,
     "editor.formatOnType": true,
+    "lldb.library": "/Volumes/backup/xcodes/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+    "lldb.launch.expressions": "native",
+    "vim.smartRelativeLine": true,
   }
 }
