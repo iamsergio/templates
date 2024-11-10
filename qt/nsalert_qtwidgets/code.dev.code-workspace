@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "vadimcn.vscode-lldb",
+      "llvm-vs-code-extensions.vscode-clangd",
+      "mhutchie.git-graph",
+      "Gruntfuggly.todo-tree",
+      "ms-vscode.cmake-tools",
+      "sswg.swift-lang"
+    ]
+  },
+  "settings": {
+    "files.trimTrailingWhitespace": true,
+    "editor.formatOnSave": true,
+    "lldb.library": "/Volumes/backup/xcodes/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+    "lldb.launch.expressions": "native",
+    "vim.smartRelativeLine": true,
+    "clangd.arguments": [
+      "-header-insertion=never",
+      "--clang-tidy=false"
+    ],
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+    "files.insertFinalNewline": true
+  }
+}
