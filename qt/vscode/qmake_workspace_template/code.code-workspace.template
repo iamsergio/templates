@@ -9,7 +9,7 @@
       "vadimcn.vscode-lldb",
       "llvm-vs-code-extensions.vscode-clangd",
       "mhutchie.git-graph",
-      "bbenoist.QML",
+      "theqtcompany.qt-qml",
       "sergiokdab.qttest"
     ]
   },
