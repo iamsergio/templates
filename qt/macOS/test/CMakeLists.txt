@@ -14,6 +14,9 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_OSX_DEPLOYMENT_TARGET 13)
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 
+# set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Developer ID Application")
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE "Manual")
 ####################################################################################################
 
 find_package(Qt6 6.7 NO_MODULE REQUIRED COMPONENTS Quick)  
@@ -34,13 +37,4 @@ set_target_properties(test PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER com.iamserj.test
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
-)
-
-include(GNUInstallDirs)
-
-# Seems to just copy "test.app" into the install directory
-install(TARGETS test
-    BUNDLE DESTINATION . 
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
