@@ -1,6 +1,6 @@
 cd build-rel && \
 pkgbuild --root test.app \
-     --identifier com.iamserj.test \
+     --identifier com.iamserj.test2 \
      --version 1.0.0 \
      --install-location /Applications/MyTest.app \
      test-unsigned.pkg && \
