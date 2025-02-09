@@ -16,15 +16,6 @@
   },
   "settings": {
     "files.trimTrailingWhitespace": true,
-    "editor.formatOnSave": true,
-    "lldb.library": "/Volumes/backup/xcodes/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
-    "lldb.launch.expressions": "native",
-    "vim.smartRelativeLine": true,
-    "clangd.arguments": [
-      "-header-insertion=never",
-      "--clang-tidy=false"
-    ],
-    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
-    "files.insertFinalNewline": true
+    "editor.formatOnType": true,
   }
 }
