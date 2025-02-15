@@ -117,34 +117,34 @@
     "version": 3,
     "configurePresets": [
       {
-        "name": "dev",
-        "description": "dev",
+        "name": "base",
+        "hidden": true,
         "generator": "Ninja",
-        "binaryDir": "${sourceDir}/build-dev",
+        "binaryDir": "${sourceDir}/build-${presetName}",
         "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Debug",
           "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
         }
       },
       {
-        "name": "dev-asan",
-        "description": "dev-asan",
-        "generator": "Ninja",
-        "binaryDir": "${sourceDir}/build-dev-asan",
+        "name": "dev",
+        "inherits": "base",
         "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Debug",
-          "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-          "ENABLE_ASAN": "ON"
+          "CMAKE_BUILD_TYPE": "Debug"
         }
       },
       {
         "name": "rel",
-        "description": "rel",
-        "generator": "Ninja",
-        "binaryDir": "${sourceDir}/build-rel",
+        "inherits": "base",
         "cacheVariables": {
-          "CMAKE_BUILD_TYPE": "Release",
-          "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+          "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        }
+      },
+      {
+        "name": "dev-asan",
+        "inherits": "dev",
+        "description": "dev-asan",
+        "cacheVariables": {
+          "ENABLE_ASAN": "ON"
         }
       }
     ]
