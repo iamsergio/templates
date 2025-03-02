@@ -1,11 +1,17 @@
 #include <QtWidgets>
 
+#include "malloc.h"
+
 int main(int argc, char **argv) {
   QApplication app(argc, argv);
 
+  const int numObjects = (argc > 1) ? atoi(argv[1]) : 1000000;
+
+  qDebug() << "Creating numObjects" << numObjects;
+
   QVector<QObject *> objects;
-  objects.reserve(1000000);
-  for (int i = 0; i < 1000000; i++) {
+  objects.reserve(numObjects);
+  for (int i = 0; i < numObjects; i++) {
     objects.push_back(new QObject());
   }
 
@@ -20,6 +26,8 @@ int main(int argc, char **argv) {
   QObject::connect(button, &QPushButton::clicked, [&objects]() {
     qDeleteAll(objects);
     objects.clear();
+    objects.squeeze();
+    // malloc_trim(0);
   });
 
   QObject::connect(evenButton, &QPushButton::clicked, [&objects]() {
