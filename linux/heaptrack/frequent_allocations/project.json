@@ -1,0 +1,5 @@
+{
+  "description": "Creates allocations every X seconds",
+  "type": "sample",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
+}
