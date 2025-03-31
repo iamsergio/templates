@@ -8,6 +8,8 @@
 #include <jemalloc/jemalloc.h>
 #endif
 
+#include <unistd.h>
+
 // ./build-dev/test -q -n 0
 //     6.5 heap
 
@@ -23,9 +25,10 @@
 // ./build-dev/test -n 50 --malloc-trim
 // smem reports 37000
 
-#ifdef ENABLE_JEMALLOC
-void dump_jemallocinfo()
+
+void dump_mallocinfo()
 {
+#ifdef ENABLE_JEMALLOC
     unsigned narenas;
     size_t sz = sizeof(narenas);
 
@@ -34,8 +37,23 @@ void dump_jemallocinfo()
     } else {
         printf("Failed to query number of arenas\n");
     }
-}
+#else
+
+    // struct mallinfo2 info = mallinfo2();
+
+    // printf("MMAP_THRESHOLD: %d\n", info.);
+
+    // Set mmap threshold to 64 KB
+    // mallopt(M_MMAP_THRESHOLD, 64 * 1024);
 #endif
+}
+
+void tune_allocator()
+{
+    mallopt(M_MMAP_THRESHOLD, 1);
+    mallopt(M_TRIM_THRESHOLD, 16 * 1024);
+    mallopt(M_MXFAST, 0);
+}
 
 QQuickView *createWindow()
 {
@@ -49,9 +67,12 @@ QQuickView *createWindow()
 
 int main(int argc, char **argv)
 {
-#ifdef ENABLE_JEMALLOC
-    dump_jemallocinfo();
-#endif
+    void *initialBrk = sbrk(0);
+    printf("Current program break: %p\n", initialBrk);
+
+    dump_mallocinfo();
+    tune_allocator();
+
 
     QGuiApplication app(argc, argv);
 
@@ -116,10 +137,14 @@ int main(int argc, char **argv)
         timer.start(1000);
 
         // Stop after 30s
-        QTimer::singleShot(30000, &app, [&] {
+        QTimer::singleShot(15000, &app, [&] {
             timer.stop();
             qDeleteAll(windows);
             windows.clear();
+            QTimer::singleShot(5000, [&] {
+                const auto breakSize = ( int64_t )sbrk(0) - ( int64_t )initialBrk;
+                printf("END: sbrk size: %.2f MB\n", breakSize / (1024.0 * 1024.0));
+            });
         });
     } else {
         for (int i = 0; i < numWindows; i++) {
@@ -128,10 +153,15 @@ int main(int argc, char **argv)
 
         if (parser.isSet(quitOption)) {
             QTimer::singleShot(5000, &app, [&] {
-                QGuiApplication::quit();
+                QTimer::singleShot(5000, [&] {
+                    const auto breakSize = ( int64_t )sbrk(0) - ( int64_t )initialBrk;
+                    printf("END: sbrk size: %.2f MB\n", breakSize / (1024.0 * 1024.0));
+                    QGuiApplication::quit();
+                });
             });
         }
     }
+
 
 
     app.exec();
