@@ -1,0 +1,5 @@
+{
+  "description": "Thread-pool benchmark",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format", "gitignore"],
+  "type": "benchmark"
+}
