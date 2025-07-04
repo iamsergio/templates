@@ -1,5 +1,4 @@
 {
-    "description": "Minimal Qt build workflow",
-    "no_parent_dir": true,
-    "type": "single_file"
+  "description": "Minimal Qt build workflow",
+  "type": "single_file"
 }

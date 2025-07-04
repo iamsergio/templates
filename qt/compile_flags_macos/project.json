@@ -1,5 +1,4 @@
 {
-    "description": "compile_flags.txt for qmake macOS",
-    "no_parent_dir": true,
-    "type": "single_file"
+  "description": "compile_flags.txt for qmake macOS",
+  "type": "single_file"
 }

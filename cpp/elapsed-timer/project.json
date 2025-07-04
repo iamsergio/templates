@@ -1,5 +1,4 @@
 {
-    "description": "header-only ElapsedTimer",
-    "no_parent_dir": true,
-    "type": "single_file"
+  "description": "header-only ElapsedTimer",
+  "type": "single_file"
 }

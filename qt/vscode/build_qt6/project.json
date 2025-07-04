@@ -1,5 +1,4 @@
 {
-    "description": "Build Qt6 vscode template",
-    "no_parent_dir": true,
-    "type": "single_file"
+  "description": "Build Qt6 vscode template",
+  "type": "single_file"
 }

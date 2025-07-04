@@ -1,5 +1,4 @@
 {
-    "description": "Qt6 natvis",
-    "no_parent_dir": true,
-    "type": "single_file"
+  "description": "Qt6 natvis",
+  "type": "single_file"
 }

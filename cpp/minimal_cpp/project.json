@@ -1,0 +1,4 @@
+{
+  "description": "Minimal cpp cmake project",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format", "gitignore"]
+}

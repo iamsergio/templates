@@ -1,5 +1,4 @@
 {
-    "description": ".clang-format file Qt style",
-    "no_parent_dir": true,
-    "type": "single_file"
+  "description": ".clang-format file Qt style",
+  "type": "single_file"
 }
