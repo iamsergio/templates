@@ -1,0 +1,4 @@
+{
+  "description": "Minimal QtQuick Compositor and Client",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
+}
