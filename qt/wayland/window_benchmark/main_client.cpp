@@ -4,8 +4,14 @@
 int NUM_WINDOWS = 0;
 
 
-QQuickWindow* createWindow() {
+QQuickWindow* createWindow(int n) {
     auto view = new QQuickView;
+
+    QQuickGraphicsConfiguration config = view->graphicsConfiguration();
+    config.setPipelineCacheSaveFile(QString("/tmp/cache-%1").arg(n));
+    config.setPipelineCacheLoadFile(QString("/tmp/cache-%1").arg(n));
+    view->setGraphicsConfiguration(config);
+    
     view->setSource(QUrl(QStringLiteral("qrc:/main_client.qml")));
     view->setResizeMode(QQuickView::SizeViewToRootObject);
     return view;
@@ -19,7 +25,7 @@ void createWindows(int n) {
     
     auto timer = new QElapsedTimer();
     timer->start();
-    auto view = createWindow();
+    auto view = createWindow(n);
     qDebug() << "View" << n << "window created" << timer->elapsed();
 
     auto ctx = new QObject();
@@ -63,7 +69,7 @@ int main(int argc, char**argv) {
     
     parser.process(app);
     
-    auto warmUpView = createWindow();
+    auto warmUpView = createWindow(-1);
     warmUpView->show();
     auto ctx = new QObject();
     QObject::connect(warmUpView, &QQuickWindow::frameSwapped, ctx, [ctx, warmUpView, &parser, &numWindowsOption, &sleepSecsOption] {
