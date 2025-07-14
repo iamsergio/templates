@@ -19,6 +19,12 @@ QQuickWindow* createWindow(int n) {
 
 void createWindows(int n) {
     if (n == 0) {
+        
+        for (auto window : qGuiApp->topLevelWindows()) {
+            qDebug() << "deleting" << window;
+            delete window;
+        }
+        
         qGuiApp->exit();
         return;   
     }
