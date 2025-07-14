@@ -20,6 +20,7 @@ void createWindows(int n) {
     auto timer = new QElapsedTimer();
     timer->start();
     auto view = createWindow();
+    qDebug() << "View" << n << "window created" << timer->elapsed();
 
     auto ctx = new QObject();
     QObject::connect(view, &QQuickWindow::frameSwapped, ctx, [view, timer, n, ctx] {
@@ -30,7 +31,16 @@ void createWindows(int n) {
         });
     });
     
+    QObject::connect(view, &QQuickWindow::beforeFrameBegin, ctx, [view, timer, n, ctx] {
+        qDebug() << "View" << n << "; beforeFrameBegin (ms):" << timer->elapsed();
+    });
+    
+    QObject::connect(view, &QQuickWindow::afterSynchronizing, ctx, [view, timer, n, ctx] {
+        qDebug() << "View" << n << "; afterSynchronizing (ms):" << timer->elapsed();
+    });
+    
     view->show();
+    qDebug() << "View" << n << "show()" << timer->elapsed();
 }
 
 
