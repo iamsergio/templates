@@ -1,0 +1,5 @@
+{
+  "description": "wayland window benchmark",
+  "type": "benchmark",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
+}
