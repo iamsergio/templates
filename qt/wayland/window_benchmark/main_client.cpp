@@ -7,10 +7,10 @@ int NUM_WINDOWS = 0;
 QQuickWindow* createWindow(int n) {
     auto view = new QQuickView;
 
-    QQuickGraphicsConfiguration config = view->graphicsConfiguration();
-    config.setPipelineCacheSaveFile(QString("/tmp/cache-%1").arg(n));
-    config.setPipelineCacheLoadFile(QString("/tmp/cache-%1").arg(n));
-    view->setGraphicsConfiguration(config);
+    // QQuickGraphicsConfiguration config = view->graphicsConfiguration();
+    // config.setPipelineCacheSaveFile(QString("/tmp/cache-%1").arg(n));
+    // config.setPipelineCacheLoadFile(QString("/tmp/cache-%1").arg(n));
+    // view->setGraphicsConfiguration(config);
     
     view->setSource(QUrl(QStringLiteral("qrc:/main_client.qml")));
     view->setResizeMode(QQuickView::SizeViewToRootObject);
