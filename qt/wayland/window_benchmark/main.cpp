@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     QCommandLineOption fullScreenOption("fullscreen", "If fullscreen or not");
     parser.addOption(fullScreenOption);
-    
+       
     parser.process(app);
 
     const bool noSurface = parser.isSet(noSurfaceOption);
