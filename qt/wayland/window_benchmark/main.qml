@@ -14,11 +14,15 @@ WaylandCompositor {
             height: 768
             visible: true
             visibility: _fullscreen ? Window.FullScreen : Window.Windowed
-            Repeater {
-                model: _noSurface ? 0 : shellSurfaces
-                ShellSurfaceItem {
-                    shellSurface: modelData
-                    onSurfaceDestroyed: shellSurfaces.remove(index)
+            Rectangle {
+                color: "yellow"
+                anchors.fill: parent
+                Repeater {
+                    model: _noSurface ? 0 : shellSurfaces
+                    ShellSurfaceItem {
+                        shellSurface: modelData
+                        onSurfaceDestroyed: shellSurfaces.remove(index)
+                    }
                 }
             }
         }
