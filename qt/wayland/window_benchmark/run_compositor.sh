@@ -2,15 +2,21 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-if [ "$1" = "stat" ]; then
-    PERF_COMMAND="perf stat"
-else
-    PERF_COMMAND=""
-fi
+PERF_COMMAND=""
+NO_SURFACE=""
+FULLSCREEN=""
 
-if [ -n "$1" ] && [ "$1" != "stat" ]; then
-    echo "Usage: $0 [stat]"
-    exit 1
-fi
+for arg in "$@"; do
+    if [ "$arg" = "stat" ]; then
+        PERF_COMMAND="perf stat"
+    elif [ "$arg" = "noSurface" ]; then
+        NO_SURFACE="--no-surface"
+    elif [ "$arg" = "--fullscreen" ]; then
+        FULLSCREEN="--fullscreen"
+    else
+        echo "Usage: $0 [stat] [noSurface] [--fullscreen]"
+        exit 1
+    fi
+done
 
-$PERF_COMMAND $SCRIPT_DIR/build-rel/compositor-benchmark --wayland-socket-name foo
+$PERF_COMMAND $SCRIPT_DIR/build-rel/compositor-benchmark --wayland-socket-name foo $NO_SURFACE $FULLSCREEN

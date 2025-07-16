@@ -13,8 +13,9 @@ WaylandCompositor {
             width: 1024
             height: 768
             visible: true
+            visibility: _fullscreen ? Window.FullScreen : Window.Windowed
             Repeater {
-                model: shellSurfaces
+                model: _noSurface ? 0 : shellSurfaces
                 ShellSurfaceItem {
                     shellSurface: modelData
                     onSurfaceDestroyed: shellSurfaces.remove(index)
