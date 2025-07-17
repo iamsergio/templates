@@ -1,0 +1,4 @@
+{
+  "description": "toplevel drag",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
+}
