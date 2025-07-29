@@ -9,6 +9,8 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLWidget>
 
+#include "utils.h"
+
 class MyOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 public:
   MyOpenGLWidget(QWidget *parent = nullptr) : QOpenGLWidget(parent) {}
@@ -54,11 +56,13 @@ protected:
       qCritical() << "Vertex shader compilation failed:" << m_program->log();
       return;
     }
+
     if (!m_program->addCacheableShaderFromSourceCode(QOpenGLShader::Fragment,
                                                      fShaderSource)) {
       qCritical() << "Fragment shader compilation failed:" << m_program->log();
       return;
     }
+
     if (!m_program->link()) {
       qCritical() << "Shader program linking failed:" << m_program->log();
       return;
@@ -76,6 +80,8 @@ protected:
 
     m_program->enableAttributeArray(0);
     m_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 3 * sizeof(GLfloat));
+
+    printShaderCacheInfos(QOpenGLContext::currentContext());
 
     qDebug() << "Shader initialization time:" << timer.elapsed() << "ms";
   }
