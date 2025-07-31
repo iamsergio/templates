@@ -14,6 +14,8 @@
 
 #include "utils.h"
 
+#define SHADER_CACHE_LOCATION "/tmp/qtshadercache_test"
+
 void print_qrc_recursively(const QString &path = ":/") {
   QDirIterator it(path, QDirIterator::Subdirectories);
   while (it.hasNext()) {
@@ -23,11 +25,11 @@ void print_qrc_recursively(const QString &path = ":/") {
 }
 
 void checkCacheExists() {
-  QFile cacheFile("/tmp/qquickwindow-cache-test");
+  QFile cacheFile(SHADER_CACHE_LOCATION);
   if (cacheFile.exists()) {
-    qDebug() << "/tmp/qquickwindow-cache-test exists";
+    qDebug() << SHADER_CACHE_LOCATION << "exists";
   } else {
-    qDebug() << "/tmp/qquickwindow-cache-test does not exist";
+    qDebug() << SHADER_CACHE_LOCATION << "does not exist";
   }
 }
 
@@ -50,7 +52,7 @@ void printInfo(QQuickWindow &window) {
 }
 
 int main(int argc, char **argv) {
-  setenv("XDG_CACHE_HOME", "/tmp/qtshadercache_test", 1); // Qt5 style
+  setenv("XDG_CACHE_HOME", SHADER_CACHE_LOCATION, 1); // Qt5 style
   QGuiApplication app(argc, argv);
 
   QCommandLineParser parser;
@@ -72,7 +74,7 @@ int main(int argc, char **argv) {
 
   auto view = new QQuickView();
 
-  system("rm -rf /tmp/qquickwindow-cache-test");
+  system(QString("rm -rf %1").arg(SHADER_CACHE_LOCATION).toStdString().c_str());
   checkCacheExists();
 
   QQuickGraphicsConfiguration config = view->graphicsConfiguration();
@@ -80,8 +82,8 @@ int main(int argc, char **argv) {
   if (isQt5cachestyle) {
     config.setAutomaticPipelineCache(false);
   } else {
-    config.setPipelineCacheSaveFile(QString("/tmp/qquickwindow-cache-test"));
-    config.setPipelineCacheLoadFile(QString("/tmp/qquickwindow-cache-test"));
+    config.setPipelineCacheSaveFile(QString(SHADER_CACHE_LOCATION));
+    config.setPipelineCacheLoadFile(QString(SHADER_CACHE_LOCATION));
   }
 
   view->setGraphicsConfiguration(config);

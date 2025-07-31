@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "configurePresets": [
     {
       "name": "base",
@@ -22,6 +22,14 @@
       "inherits": "base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "dev-asan",
+      "inherits": "dev",
+      "description": "dev-asan",
+      "cacheVariables": {
+        "ENABLE_ASAN": "ON"
       }
     }
   ]
