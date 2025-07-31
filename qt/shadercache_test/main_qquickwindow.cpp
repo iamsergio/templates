@@ -6,8 +6,8 @@
 #include <QQuickGraphicsConfiguration>
 #include <QTimer>
 
+#include <QCommandLineParser>
 #include <QtQuick/private/qquickwindow_p.h>
-
 #ifdef SUPPORTS_RHI
 #include <rhi/qrhi.h>
 #endif
@@ -52,6 +52,19 @@ void printInfo(QQuickWindow &window) {
 int main(int argc, char **argv) {
   QGuiApplication app(argc, argv);
 
+  QCommandLineParser parser;
+  parser.setApplicationDescription("QQuickWindow cache test application");
+  parser.addHelpOption();
+  parser.addVersionOption();
+
+  QCommandLineOption timeoutOption("dotimeout",
+                                   "Delete window after a timeout");
+  parser.addOption(timeoutOption);
+
+  parser.process(app);
+
+  bool doTimeout = parser.isSet(timeoutOption);
+
   auto view = new QQuickView();
 
   system("rm -rf /tmp/qquickwindow-cache-test");
@@ -84,11 +97,13 @@ int main(int argc, char **argv) {
   printInfo(*view);
   // print_qrc_recursively();
 
-  // QTimer::singleShot(3000, [view]() {
-  //   delete view;
-  //   qDebug() << "view was deleted";
-  //   checkCacheExists();
-  // });
+  if (doTimeout) {
+    QTimer::singleShot(3000, [view]() {
+      delete view;
+      qDebug() << "view was deleted";
+      checkCacheExists();
+    });
+  }
 
   app.exec();
 }
