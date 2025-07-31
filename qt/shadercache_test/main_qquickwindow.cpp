@@ -50,6 +50,7 @@ void printInfo(QQuickWindow &window) {
 }
 
 int main(int argc, char **argv) {
+  setenv("XDG_CACHE_HOME", "/tmp/qtshadercache_test", 1); // Qt5 style
   QGuiApplication app(argc, argv);
 
   QCommandLineParser parser;
@@ -57,13 +58,17 @@ int main(int argc, char **argv) {
   parser.addHelpOption();
   parser.addVersionOption();
 
-  QCommandLineOption timeoutOption("dotimeout",
+  QCommandLineOption timeoutOption("delete-view-after-timeout",
                                    "Delete window after a timeout");
   parser.addOption(timeoutOption);
+  QCommandLineOption qt5CacheStyleOption("qt5-cache-style",
+                                         "Use Qt5 cache style");
+  parser.addOption(qt5CacheStyleOption);
 
   parser.process(app);
 
-  bool doTimeout = parser.isSet(timeoutOption);
+  const bool deleteView = parser.isSet(timeoutOption);
+  const bool isQt5cachestyle = parser.isSet(qt5CacheStyleOption);
 
   auto view = new QQuickView();
 
@@ -71,8 +76,14 @@ int main(int argc, char **argv) {
   checkCacheExists();
 
   QQuickGraphicsConfiguration config = view->graphicsConfiguration();
-  config.setPipelineCacheSaveFile(QString("/tmp/qquickwindow-cache-test"));
-  config.setPipelineCacheLoadFile(QString("/tmp/qquickwindow-cache-test"));
+
+  if (isQt5cachestyle) {
+    config.setAutomaticPipelineCache(false);
+  } else {
+    config.setPipelineCacheSaveFile(QString("/tmp/qquickwindow-cache-test"));
+    config.setPipelineCacheLoadFile(QString("/tmp/qquickwindow-cache-test"));
+  }
+
   view->setGraphicsConfiguration(config);
 
   view->setSource(QUrl("qrc:/qt/qml/MyTest/MyTest/main.qml"));
@@ -97,7 +108,7 @@ int main(int argc, char **argv) {
   printInfo(*view);
   // print_qrc_recursively();
 
-  if (doTimeout) {
+  if (deleteView) {
     QTimer::singleShot(3000, [view]() {
       delete view;
       qDebug() << "view was deleted";
