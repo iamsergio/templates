@@ -19,6 +19,16 @@ else()
     set(QTMAJOR 5)
 endif()
 
+option(BUILD_QQUICKWINDOW "Build the QQuickWindow example" ON)
+if (USE_QT6 AND Qt6Core_VERSION VERSION_GREATER_EQUAL "6.6.0")
+    option (SUPPORTS_RHI "Enable RHI support" ON)
+else()
+    option (SUPPORTS_RHI "Enable RHI support" OFF)
+endif()
+
+if (SUPPORTS_RHI)
+    add_definitions(-DSUPPORTS_RHI)
+endif()
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -27,24 +37,26 @@ qt_add_executable(
     main_qopenglprogram.cpp
 )
 
-qt_add_executable(
-    test_qquickwindow
-    main_qquickwindow.cpp
-)
-
 target_link_libraries(test_qopenglprogram PUBLIC Qt${QTMAJOR}::Quick Qt${QTMAJOR}::Widgets Qt${QTMAJOR}::OpenGLWidgets)
-target_link_libraries(test_qquickwindow PUBLIC Qt${QTMAJOR}::QuickPrivate Qt${QTMAJOR}::Quick Qt${QTMAJOR}::OpenGLWidgets)
 
-QT_POLICY(SET QTP0001 NEW)
-QT_POLICY(SET QTP0004 NEW)
+
+if (BUILD_QQUICKWINDOW)
+    qt_add_executable(
+        test_qquickwindow
+        main_qquickwindow.cpp
+    )
     
-qt_add_qml_module(test_qquickwindow
-    URI MyTest
-    QML_FILES
-        MyTest/MyRect.qml
-        MyTest/main.qml
-    # SOURCES
-    #     MyTest/Obj.cpp
-    NO_GENERATE_PLUGIN_SOURCE
-    NO_PLUGIN
-)
+    target_link_libraries(test_qquickwindow PUBLIC Qt${QTMAJOR}::QuickPrivate Qt${QTMAJOR}::Quick Qt${QTMAJOR}::OpenGLWidgets)
+    
+        
+    qt_add_qml_module(test_qquickwindow
+        URI MyTest
+        QML_FILES
+            MyTest/MyRect.qml
+            MyTest/main.qml
+        # SOURCES
+        #     MyTest/Obj.cpp
+        NO_GENERATE_PLUGIN_SOURCE
+        NO_PLUGIN
+    )
+endif()

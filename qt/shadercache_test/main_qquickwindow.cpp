@@ -7,7 +7,10 @@
 #include <QTimer>
 
 #include <QtQuick/private/qquickwindow_p.h>
+
+#ifdef SUPPORTS_RHI
 #include <rhi/qrhi.h>
+#endif
 
 #include "utils.h"
 
@@ -28,10 +31,12 @@ void checkCacheExists() {
   }
 }
 
+#ifdef SUPPORTS_RHI
 QRhi *rhiForWindow(QQuickWindow *window) {
   auto priv = QQuickWindowPrivate::get(window);
   return priv->rhi;
 }
+#endif
 
 void printInfo(QQuickWindow &window) {
   auto ri = window.rendererInterface();
