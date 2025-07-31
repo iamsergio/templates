@@ -8,7 +8,11 @@ set(CMAKE_INCLUDE_CURRENT_DIRS ON)
 option (USE_QT6 "Use Qt6" ON)
 
 if (USE_QT6)
-    find_package(Qt6 6.5 NO_MODULE REQUIRED COMPONENTS Widgets Quick OpenGL OpenGLWidgets QuickPrivate)
+    find_package(Qt6 6.5 NO_MODULE REQUIRED COMPONENTS Widgets Quick OpenGL OpenGLWidgets)
+    if(Qt6Core_VERSION VERSION_GREATER_EQUAL "6.10.0")
+        find_package(Qt6 6.5 NO_MODULE REQUIRED COMPONENTS QuickPrivate)
+    endif()
+    
     set(QTMAJOR 6)
 else()
     find_package(Qt5 5.15 NO_MODULE REQUIRED COMPONENTS Widgets Quick OpenGL OpenGLWidgets)
