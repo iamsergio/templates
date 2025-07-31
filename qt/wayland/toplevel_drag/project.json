@@ -1,4 +1,5 @@
 {
-  "description": "toplevel drag",
-  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
+  "description": "wayland toplevel drag",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"],
+  "type": "testcase"
 }

@@ -1,5 +1,6 @@
 ---
 BasedOnStyle: WebKit
+---            
 Language: Cpp
 Standard: Cpp11
 
@@ -69,4 +70,7 @@ SpaceInEmptyParentheses: false
 SpacesInAngles: false
 SpacesInCStyleCastParentheses: true
 SpacesInParentheses: false
+---
+Language: ObjC
+IndentWidth: 4
 ...

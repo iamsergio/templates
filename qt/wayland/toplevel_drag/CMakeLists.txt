@@ -5,7 +5,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIRS ON)
 
-find_package(Qt5 5.15 NO_MODULE REQUIRED COMPONENTS Widgets)
+find_package(Qt6 6.2 NO_MODULE REQUIRED COMPONENTS Widgets GuiPrivate)
 
 if (ENABLE_ASAN)
   add_compile_options(-fsanitize=address -fsanitize=undefined)
@@ -13,10 +13,10 @@ if (ENABLE_ASAN)
 endif()
 
 add_executable(
-    qtwidgets_basic
+    topleveldrag
     main.cpp
 )
 
 target_link_libraries(
-    qtwidgets_basic Qt5::Widgets
+    topleveldrag Qt6::Widgets Qt6::GuiPrivate
 )
