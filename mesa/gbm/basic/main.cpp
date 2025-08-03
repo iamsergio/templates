@@ -1,3 +1,4 @@
+#include <cstring>
 #include <fcntl.h>
 #include <fstream>
 #include <gbm.h>
@@ -6,14 +7,18 @@
 #include <unistd.h>
 #include <xf86drm.h> // For DRM ioctl
 
-// #define DRI_NODE "/dev/dri/card1" #
-#define DRI_NODE "/dev/dri/renderD128" // render not without rendering support
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    std::cerr << "Usage: " << argv[0] << " <DRI_NODE_PATH>" << std::endl;
+    std::cerr << "Example: " << argv[0] << " /dev/dri/renderD128" << std::endl;
+    return 1;
+  }
+  const char *dri_node_path = argv[1];
 
-int main() {
   // 1. Open the DRI device
-  int drm_fd = open(DRI_NODE, O_RDWR);
+  int drm_fd = open(dri_node_path, O_RDWR);
   if (drm_fd < 0) {
-    std::cerr << "Failed to open DRM device " << DRI_NODE << std::endl;
+    std::cerr << "Failed to open DRM device " << dri_node_path << ": " << strerror(errno) << std::endl;
     return 1;
   }
   std::cout << "DRM device open\n";
@@ -26,7 +31,7 @@ int main() {
     return 1;
   }
 
-  std::cout << "DRM device created\n";
+  std::cout << "DRM device created: " <<   gbm_device_get_backend_name(gbm_dev) << "\n";
 
   // 3. Define buffer properties
   const int width = 640;
