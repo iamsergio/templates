@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  std::cout << "DRM device created: " <<   gbm_device_get_backend_name(gbm_dev) << "\n";
+  std::cout << "DRM device created: " << gbm_device_get_backend_name(gbm_dev) << "\n";
 
   // 3. Define buffer properties
   const int width = 640;

@@ -51,7 +51,8 @@ int main(int argc, char *argv[]) {
   const char *drm_card_name = argv[1];
 
   // Step 1: Open the DRM device file
-  int fd = drmOpen(drm_card_name, NULL);
+  int fd = open(drm_card_name, O_RDWR);
+  // int fd = drmOpen(drm_card_name, NULL); not working
   if (fd < 0) {
     std::string error_msg = "Could not open DRM device (";
     error_msg += drm_card_name;
@@ -72,8 +73,10 @@ int main(int argc, char *argv[]) {
   drmModeEncoderPtr encoder = nullptr;
   drmModeModeInfoPtr mode = nullptr;
 
+  std::cout << "got num connectors=" << res->count_connectors << "\n";
   for (int i = 0; i < res->count_connectors; ++i) {
     connector = drmModeGetConnector(fd, res->connectors[i]);
+    std::cout << "Testing connector: " << i << "\n";
     if (connector && connector->connection == DRM_MODE_CONNECTED &&
         connector->count_modes > 0) {
       std::cout << "Found a connected connector: " << res->connectors[i]
@@ -83,15 +86,18 @@ int main(int argc, char *argv[]) {
                 << mode->vdisplay << ")" << std::endl;
 
       // Find a suitable encoder
+      std::cout << "got num encoders=" << res->count_encoders << "\n";
       for (int j = 0; j < res->count_encoders; ++j) {
         encoder = drmModeGetEncoder(fd, res->encoders[j]);
-        if (encoder && encoder->encoder_id == connector->encoder_id) {
-          std::cout << "Found a matching encoder: " << res->encoders[j]
+        if (encoder) {
+            if(encoder->encoder_id == connector->encoder_id) {
+                std::cout << "Found a matching encoder: " << res->encoders[j]
                     << std::endl;
-          break;
+                break;
+            }
+            drmModeFreeEncoder(encoder);
+            encoder = nullptr;
         }
-        drmModeFreeEncoder(encoder);
-        encoder = nullptr;
       }
       if (encoder)
         break;
@@ -107,8 +113,13 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  std::string connector_name = drmModeGetConnectorTypeName(connector->connector_type);
+  std::cout << "Connector type name: " << connector_name << "\n";
+
+
   // Step 4: Find an available CRTC (Cathode Ray Tube Controller)
   drmModeCrtcPtr crtc = nullptr;
+  std::cout << "got num crtcs=" << res->count_crtcs << "\n";
   for (int i = 0; i < res->count_crtcs; ++i) {
     crtc = drmModeGetCrtc(fd, res->crtcs[i]);
     if (crtc && crtc->crtc_id == encoder->crtc_id) {
@@ -151,35 +162,47 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  // Step 6: Create a GBM surface for the framebuffer
-  struct gbm_surface *gbm_surf =
-      gbm_surface_create(gbm_dev, mode->hdisplay, mode->vdisplay,
-                         GBM_FORMAT_XRGB8888, // Use a 32-bit format
-                         GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
-  if (!gbm_surf) {
-    std::cerr << "Failed to create GBM surface." << std::endl;
-    gbm_device_destroy(gbm_dev);
-    drmModeFreeResources(res);
-    drmModeFreeConnector(connector);
-    drmModeFreeEncoder(encoder);
-    drmModeFreeCrtc(crtc);
-    drmClose(fd);
-    return 1;
-  }
+  std::cout << "Created GMB device" << "\n";
 
+  // only for EGL:
+  // Step 6: Create a GBM surface for the framebuffer
+  // struct gbm_surface *gbm_surf =
+  //     gbm_surface_create(gbm_dev, mode->hdisplay, mode->vdisplay,
+  //                        GBM_FORMAT_XRGB8888, // Use a 32-bit format
+  //                        GBM_BO_USE_SCANOUT | GBM_BO_USE_WRITE);
+  // if (!gbm_surf) {
+  //   std::cerr << "Failed to create GBM surface." << std::endl;
+  //   gbm_device_destroy(gbm_dev);
+  //   drmModeFreeResources(res);
+  //   drmModeFreeConnector(connector);
+  //   drmModeFreeEncoder(encoder);
+  //   drmModeFreeCrtc(crtc);
+  //   drmClose(fd);
+  //   return 1;
+  // }
+
+
+  struct gbm_bo *bo = gbm_bo_create(gbm_dev, mode->hdisplay, mode->vdisplay,
+                                    GBM_FORMAT_XRGB8888,
+                                    GBM_BO_USE_SCANOUT | GBM_BO_USE_WRITE);
+  std::cout << "Created GMB bo" << "\n";
+
+  // only for EGL:
   // Step 7: Create an initial GBM buffer object
-  struct gbm_bo *bo = gbm_surface_lock_front_buffer(gbm_surf);
-  if (!bo) {
-    std::cerr << "Failed to lock GBM front buffer." << std::endl;
-    gbm_surface_destroy(gbm_surf);
-    gbm_device_destroy(gbm_dev);
-    drmModeFreeResources(res);
-    drmModeFreeConnector(connector);
-    drmModeFreeEncoder(encoder);
-    drmModeFreeCrtc(crtc);
-    drmClose(fd);
-    return 1;
-  }
+  // struct gbm_bo *bo = gbm_surface_lock_front_buffer(gbm_surf);
+  // if (!bo) {
+  //   std::cerr << "Failed to lock GBM front buffer." << std::endl;
+  //   gbm_surface_destroy(gbm_surf);
+  //   gbm_device_destroy(gbm_dev);
+  //   drmModeFreeResources(res);
+  //   drmModeFreeConnector(connector);
+  //   drmModeFreeEncoder(encoder);
+  //   drmModeFreeCrtc(crtc);
+  //   drmClose(fd);
+  //   return 1;
+  // }
+
+  std::cout << "Locked front buffer" << "\n";
 
   // Step 8: Create a DRM framebuffer from the GBM buffer object
   uint32_t width = gbm_bo_get_width(bo);
@@ -234,8 +257,8 @@ int main(int argc, char *argv[]) {
 
   // Unmap and destroy buffer
   gbm_bo_unmap(bo, map_data);
-  gbm_surface_release_buffer(gbm_surf, bo);
-  gbm_surface_destroy(gbm_surf);
+  // gbm_surface_release_buffer(gbm_surf, bo);
+  // gbm_surface_destroy(gbm_surf);
   gbm_device_destroy(gbm_dev);
 
   // Free resources and close fd
