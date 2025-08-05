@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shaders/board.frag</file>
+        <file>shaders/board.vert</file>
+        <file>assets/2d/branco_bispo.png</file>
+        <file>assets/2d/branco_cavalo.png</file>
+        <file>assets/2d/branco_dama.png</file>
+        <file>assets/2d/branco_peao.png</file>
+        <file>assets/2d/branco_rei.png</file>
+        <file>assets/2d/branco_torre.png</file>
+        <file>assets/2d/preto_bispo.png</file>
+        <file>assets/2d/preto_cavalo.png</file>
+        <file>assets/2d/preto_dama.png</file>
+        <file>assets/2d/preto_peao.png</file>
+        <file>assets/2d/preto_rei.png</file>
+        <file>assets/2d/preto_torre.png</file>
+        <file>shaders/piece.frag</file>
+        <file>shaders/piece.vert</file>
+        <file>assets/wood.jpg</file>
+    </qresource>
+</RCC>

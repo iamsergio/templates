@@ -1,0 +1,12 @@
+.qmake.stash
+*.o
+moc_*
+*.pro.user
+Makefile
+qrc_*
+*.trace
+chess
+build
+ui_controlpanel.h
+Makefile*
+/release
