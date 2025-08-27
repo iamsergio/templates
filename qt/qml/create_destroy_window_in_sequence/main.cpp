@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     parser.addVersionOption();
 
     createWindow();
-    printQrcResourcesRecursively();
+    // printQrcResourcesRecursively();
 
     app.exec();
 }
