@@ -7,6 +7,8 @@
 #include <QDirIterator>
 #include <QDebug>
 
+static bool s_singleWindow = false;
+
 void printQrcResourcesRecursively(const QString &path = ":/")
 {
     QDirIterator it(path, QDirIterator::Subdirectories);
@@ -25,12 +27,14 @@ QQuickView *createWindow()
     win->resize(500, 500);
     win->show();
 
-    QTimer::singleShot(1000, [win] {
-        delete win;
-        QTimer::singleShot(1000, [] {
-            createWindow();
+    if (!s_singleWindow) {
+        QTimer::singleShot(1000, [win] {
+            delete win;
+            QTimer::singleShot(1000, [] {
+                createWindow();
+            });
         });
-    });
+    }
 
     return win;
 }
@@ -43,6 +47,13 @@ int main(int argc, char **argv)
     parser.setApplicationDescription("Window test");
     parser.addHelpOption();
     parser.addVersionOption();
+
+    QCommandLineOption singleWindowOption("single-window", "Run with a single window only, without recreating it");
+    parser.addOption(singleWindowOption);
+
+    parser.process(app);
+
+    s_singleWindow = parser.isSet(singleWindowOption);
 
     createWindow();
     // printQrcResourcesRecursively();
