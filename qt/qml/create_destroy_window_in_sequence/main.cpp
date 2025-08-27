@@ -28,7 +28,7 @@ QQuickView *createWindow()
     win->show();
 
     if (!s_singleWindow) {
-        QTimer::singleShot(1000, [win] {
+        QTimer::singleShot(2000, [win] {
             win->deleteLater();
             QTimer::singleShot(2000, [] {
                 createWindow();
