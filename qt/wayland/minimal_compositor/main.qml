@@ -16,6 +16,8 @@ WaylandCompositor {
             Repeater {
                 model: shellSurfaces
                 ShellSurfaceItem {
+                    x: index * 60
+                    y: index * 60
                     shellSurface: modelData
                     onSurfaceDestroyed: shellSurfaces.remove(index)
                 }
@@ -24,18 +26,24 @@ WaylandCompositor {
     }
 
     XdgShell {
-        onToplevelCreated: (toplevel, xdgSurface) => shellSurfaces.append({shellSurface: xdgSurface});
+        onToplevelCreated: (toplevel, xdgSurface) => shellSurfaces.append({
+                shellSurface: xdgSurface
+            })
     }
 
     QtShell {
-        onQtShellSurfaceCreated: function(qtShellSurface) {
-            shellSurfaces.append({shellSurface: qtShellSurface});
+        onQtShellSurfaceCreated: function (qtShellSurface) {
+            shellSurfaces.append({
+                shellSurface: qtShellSurface
+            });
         }
     }
-    
+
     XdgDecorationManagerV1 {
         preferredMode: XdgToplevel.ServerSideDecoration
     }
-    
-    ListModel { id: shellSurfaces }
+
+    ListModel {
+        id: shellSurfaces
+    }
 }

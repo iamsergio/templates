@@ -3,9 +3,15 @@ import QtQuick 2.9
 import MyTest
 
 Rectangle {
+    id: root
     MyRect {
-        color: "red"
+        color: _color
     }
 
-    color: "red"
+    Text {
+        anchors.centerIn: parent
+        text: root.width + " x " + root.height
+    }
+
+    color: _color
 }

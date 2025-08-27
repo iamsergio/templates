@@ -6,8 +6,11 @@
 
 #include <QDirIterator>
 #include <QDebug>
+#include <QQmlContext>
+#include <QQmlEngine>
 
 static bool s_singleWindow = false;
+static int s_windowIndex = 0;
 
 void printQrcResourcesRecursively(const QString &path = ":/")
 {
@@ -20,8 +23,12 @@ void printQrcResourcesRecursively(const QString &path = ":/")
 
 QQuickView *createWindow()
 {
+    s_windowIndex++;
+
     qDebug() << "Creating window";
     auto win = new QQuickView();
+    QColor c = QColor::fromHsl(s_windowIndex * 60 % 360, 200, 150);
+    win->rootContext()->setContextProperty("_color", c);
     win->setSource(QUrl("qrc:/qt/qml/MyTest/MyTest/main.qml"));
     win->setResizeMode(QQuickView::SizeRootObjectToView);
     win->resize(500, 500);
