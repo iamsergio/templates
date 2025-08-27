@@ -48,15 +48,15 @@ int main(int argc, char **argv)
     parser.addHelpOption();
     parser.addVersionOption();
 
-    QCommandLineOption singleWindowOption("single-window", "Run with a single window only, without recreating it");
-    parser.addOption(singleWindowOption);
+    QCommandLineOption dontDestroyOption("dont-destroy", "Dont destroy window after timeout");
+    parser.addOption(dontDestroyOption);
 
     QCommandLineOption numWindowsOption("num-windows", "Specify the number of windows to create", "count", "1");
     parser.addOption(numWindowsOption);
 
     parser.process(app);
 
-    s_singleWindow = parser.isSet(singleWindowOption);
+    s_singleWindow = parser.isSet(dontDestroyOption);
 
     int numWindows = parser.value(numWindowsOption).toInt();
     for (int i = 0; i < numWindows; ++i) {
