@@ -1,0 +1,8 @@
+{
+    "description": "QWindow memory usage with jemalloc and malloc_trim",
+    "type": "sample",
+    "depends" : [
+        "qt/vscode/workspace_template",
+        "cpp/clang-format"
+    ]
+}
