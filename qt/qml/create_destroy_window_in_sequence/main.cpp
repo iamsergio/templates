@@ -51,12 +51,21 @@ int main(int argc, char **argv)
     QCommandLineOption singleWindowOption("single-window", "Run with a single window only, without recreating it");
     parser.addOption(singleWindowOption);
 
+    QCommandLineOption numWindowsOption("num-windows", "Specify the number of windows to create", "count", "1");
+    parser.addOption(numWindowsOption);
+
     parser.process(app);
 
     s_singleWindow = parser.isSet(singleWindowOption);
 
-    createWindow();
+    int numWindows = parser.value(numWindowsOption).toInt();
+    for (int i = 0; i < numWindows; ++i) {
+        createWindow();
+    }
+
     // printQrcResourcesRecursively();
+    //
+    qDebug() << "Primary screen size:" << QGuiApplication::primaryScreen()->size();
 
     app.exec();
 }
