@@ -1,8 +1,5 @@
 {
-    "description": "QWindow memory usage with jemalloc and malloc_trim",
-    "type": "sample",
-    "depends" : [
-        "qt/vscode/workspace_template",
-        "cpp/clang-format"
-    ]
+  "description": "Creates and destroys QWindow in sequence to monitor CMA memory",
+  "type": "sample",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
 }

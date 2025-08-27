@@ -28,7 +28,10 @@ qt_add_executable(
 target_link_libraries(test PUBLIC Qt${QTMAJOR}::Quick)
 
 QT_POLICY(SET QTP0001 NEW)
-QT_POLICY(SET QTP0004 NEW)
+
+if(QT_VERSION VERSION_GREATER_EQUAL "6.5.0")
+    QT_POLICY(SET QTP0004 NEW)
+endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/MyTest)
 
