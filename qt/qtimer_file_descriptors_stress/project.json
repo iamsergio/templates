@@ -1,0 +1,4 @@
+{
+  "description": "QTimer stress (file descriptors)",
+  "depends": ["qt/vscode/workspace_template", "cpp/clang-format"]
+}
