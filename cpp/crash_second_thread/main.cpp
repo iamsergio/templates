@@ -1,28 +1,33 @@
+#include <atomic>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <pthread.h>
 
+// usage example: ./a.out 1  (to crash main thread)
+//                ./a.out 2  (to crash worker thread)
+
+std::atomic<int> flag(0);
+
+extern void make_crash();
+extern void wait_forever();
+
+void crash_indirection(int *data) {
+    delete data;
+}
+
 void crash_thread(bool should_crash) {
-    pthread_setname_np(pthread_self(), "CrashWorker");
-    std::cout << "Thread 'CrashWorker' started" << std::endl;
+    pthread_setname_np(pthread_self(), "Thread2");
+    std::cout << "Thread 'Thread2' started shouldcrash=" << should_crash << std::endl;
     
     if (should_crash) {
-        int* ptr = new int(42);
-        std::cout << "CrashWorker: Allocated memory: " << *ptr << std::endl;
-        
-        delete ptr;
-        std::cout << "CrashWorker: First delete completed" << std::endl;
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        
-        std::cout << "CrashWorker: About to perform double-free..." << std::endl;
-        delete ptr;
-        std::cout << "CrashWorker: This line should not be reached" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        make_crash();
     } else {
-        std::cout << "CrashWorker: Running normally, no crash" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        std::cout << "CrashWorker: Completed successfully" << std::endl;
+        flag.store(1);
+        flag.notify_all();
+
+        wait_forever();
     }
 }
 
@@ -38,19 +43,13 @@ int main(int argc, char* argv[]) {
     std::cout << "MainThread: Crash thread number: " << crash_thread_num << std::endl;
     
     if (crash_thread_num == 1) {
-        std::cout << "MainThread: About to crash main thread..." << std::endl;
-        int* ptr = new int(42);
-        std::cout << "MainThread: Allocated memory: " << *ptr << std::endl;
-        delete ptr;
-        std::cout << "MainThread: First delete completed" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        std::cout << "MainThread: About to perform double-free..." << std::endl;
-        delete ptr;
-        std::cout << "MainThread: This line should not be reached" << std::endl;
+        std::thread worker_thread(crash_thread, false);
+        flag.wait(0);
+        make_crash();
     } else {
         std::thread worker_thread(crash_thread, true);
         std::cout << "MainThread: Waiting for worker thread to complete..." << std::endl;
-        worker_thread.join();
+        wait_forever();
     }
     
     std::cout << "MainThread: Program completed normally" << std::endl;
