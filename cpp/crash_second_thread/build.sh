@@ -16,7 +16,8 @@ else
     exit 1
 fi
 
-COMMAND="g++ main.cpp crash.cpp -O2 -g --std=c++20 ${FP_FLAG} "
+CXX=${CXX:-g++}
+COMMAND="${CXX} main.cpp crash.cpp -O2 -g --std=c++20 ${FP_FLAG} "
 
 
 ${COMMAND} -fexceptions -o crash_thread_exceptions${1} 
