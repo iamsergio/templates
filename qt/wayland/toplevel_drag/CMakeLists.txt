@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(qtwidgets_basic)
+project(example_qtwidgets)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -13,10 +13,10 @@ if (ENABLE_ASAN)
 endif()
 
 add_executable(
-    topleveldrag
+    example_qtwidgets
     main.cpp
 )
 
 target_link_libraries(
-    topleveldrag Qt6::Widgets Qt6::GuiPrivate
+    example_qtwidgets Qt6::Widgets Qt6::GuiPrivate
 )

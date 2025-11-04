@@ -1,0 +1,35 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "gcc",
+            "displayName": "GCC Debug",
+            "description": "Configure with GCC compiler and C++20 modules support",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-gcc",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            },
+            "environment": {
+                "CXX": "g++"
+            }
+        },
+        {
+            "name": "clang",
+            "displayName": "Clang Debug",
+            "description": "Configure with Clang compiler and C++20 modules support",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-clang",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            },
+            "environment": {
+                "CXX": "clang++"
+            }
+        }
+    ]
+}

@@ -1,5 +1,7 @@
 #include <QtWidgets>
 #include <QGuiApplication>
+#include <QCommandLineParser>
+
 #include <qpa/qplatformnativeinterface.h>
 
 
@@ -10,7 +12,7 @@ wl_display *getWLDisplay()
         qDebug() << "Not running on a native platform interface or Wayland plugin not loaded.";
         return nullptr;
     }
-    
+
     void *wlDisplayPtr = nativeInterface->nativeResourceForIntegration("wl_display");
     if (!wlDisplayPtr) {
         qDebug() << "No wl_display found. Not a Wayland session or Wayland plugin issue.";
@@ -23,18 +25,29 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Top-level drag example.");
+    parser.addHelpOption();
+    QCommandLineOption framelessOption(QStringList() << "frameless",
+                                       "Start the main window without a window frame (Qt::FramelessWindowHint)");
+    parser.addOption(framelessOption);
+    parser.process(app);
+    bool frameless = parser.isSet(framelessOption);
+
     QWidget window;
-    QVBoxLayout *layout = new QVBoxLayout(&window);
-    QPushButton *button = new QPushButton("Click me", &window);
+    if (frameless) {
+        window.setWindowFlag(Qt::FramelessWindowHint, true);
+    }
+    auto layout = new QVBoxLayout(&window);
+    auto button = new QPushButton("Click me", &window);
     layout->addWidget(button);
-    QObject::connect(button, &QPushButton::pressed, [&window](){
-        
+    QObject::connect(button, &QPushButton::pressed, [&window]() {
         qDebug() << "Start";
         QDrag drag(&window);
-        
+
         auto mimeData = new QMimeData();
         auto qwindow = window.windowHandle();
-    
+
         auto serialize = [](const auto &object) {
             QByteArray data;
             QDataStream dataStream(&data, QIODevice::WriteOnly);
@@ -45,14 +58,12 @@ int main(int argc, char **argv)
                           serialize(reinterpret_cast<qintptr>(qwindow)));
         mimeData->setData("application/x-qt-mainwindowdrag-position", serialize(QCursor::pos()));
         drag.setMimeData(mimeData);
-        
+
         drag.exec();
         qDebug() << "Done";
-        
-        
     });
     window.show();
 
-    
+
     return app.exec();
 }

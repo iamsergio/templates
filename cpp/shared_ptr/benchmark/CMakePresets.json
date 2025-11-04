@@ -1,0 +1,26 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "release",
+            "displayName": "Release Configuration",
+            "description": "Release build with optimizations",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build-release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "clang-release",
+            "displayName": "Clang Release Configuration",
+            "description": "Release build with Clang compiler",
+            "binaryDir": "${sourceDir}/build-clang-release",
+            "inherits": "release",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++"
+            }
+        }
+    ]
+}
